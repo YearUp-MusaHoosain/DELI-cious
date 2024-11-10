@@ -109,7 +109,7 @@ public class UserInterface {
 
 
 
-    // todo COME BACK AND SORT OUT HOW TO TAKE CARE OF SANDWHICHES AND TOPPINGS SCREENS
+    // todo COME BACK AND SORT OUT HOW TO TAKE CARE OF SANDWICHES AND TOPPINGS SCREENS
     // ADD SANDWICH DISPLAY
     private void addSandwichScreenDisplay() throws InterruptedException {
         String orderScreenOptions = """
