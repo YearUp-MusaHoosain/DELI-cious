@@ -1,6 +1,9 @@
 package com.pluralsight.orderItems;
 
-public class FoodItem {
+public abstract class FoodItem {
 
-    private String size;
+    private String name;
+    private int quantity;
+
+    public abstract double calculatePrice();
 }
