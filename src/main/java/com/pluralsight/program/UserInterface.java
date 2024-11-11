@@ -1,5 +1,6 @@
 package com.pluralsight.program;
 
+import com.pluralsight.checkout.Order;
 import com.pluralsight.utils.Console;
 
 public class UserInterface {
@@ -27,23 +28,27 @@ public class UserInterface {
         int selection;
 
         // HOME SCREEN OPTIONS LOOP
-        do {
-            selection = Console.PromptForInt(options);
-            switch (selection) {
-                case 1 -> {
-                    System.out.println("\nDisplaying Order Screen...\n");
-                    Thread.sleep(500);
-                    orderScreenDisplay();
+        try{
+            do {
+                selection = Console.PromptForInt(options);
+                switch (selection) {
+                    case 1 -> {
+                        Console.displayDelayedString("\nDisplaying Order Screen...\n");
+                        orderScreenDisplay();
+                    }
+                    case 0 -> {
+                        Console.displayDelayedString("\nExiting...\n");
+                        Console.displayDelayedString("Thank you, have a nice day!");
+                        System.exit(0);
+                    }
+                    default -> System.out.println("Invalid choice! Please try again.");
                 }
-                case 0 -> {
-                    System.out.println("Exiting...");
-                    Thread.sleep(500);
-                    System.out.println("Thank you, have a nice day!");
-                    System.exit(0);
-                }
-                default -> System.out.println("Invalid choice! Please try again.");
-            }
-        } while (selection != 0);
+            } while (selection != 0);
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -51,6 +56,12 @@ public class UserInterface {
 
     // ORDER SCREEN
     public void orderScreenDisplay () throws InterruptedException {
+
+        String customerName = Console.PromptForString("Enter customer name: ");
+        String customerContactInfo = Console.PromptForString("Enter customer contact info: ");
+
+        //TODO: CREATE CUSTOMER CLASS TO CREATE CUSTOMER INSTANCES FOR DIFFERENT ORDERS
+
         String options = """
                 ╔════════════════════════════════════════════════╗
                 ║                  ORDER SCREEN                  ║
@@ -71,35 +82,37 @@ public class UserInterface {
         int selection;
 
         // ORDER SCREEN OPTIONS LOOP
-        do {
-            selection = Console.PromptForInt(options);
-            switch (selection) {
-                case 1 -> {
-                    System.out.println("\nDisplaying Add Sandwich Screen...\n");
-                    Thread.sleep(500);
-                    addSandwichScreenDisplay();
+        try{
+            do {
+                selection = Console.PromptForInt(options);
+                switch (selection) {
+                    case 1 -> {
+                        Console.displayDelayedString("\nDisplaying Add Sandwich Screen...\n");
+                        addSandwichScreenDisplay();
+                    }
+                    case 2 -> processAddDrinkRequest();
+                    case 3 -> processAddChipsRequest();
+                    case 4 -> {
+                        Console.displayDelayedString("\nDisplaying Checkout Screen...\n");
+                        checkoutScreenDisplay();
+                    }
+                    case 0 -> {
+                        Console.displayDelayedString("\n\"Cancelling order, and returning to Home Screen...\n");
+                        processCancelOrderRequest();
+                        return;
+                    }
+                    default -> System.out.println("Invalid choice! Please try again.");
                 }
-                case 2 -> processAddDrinkRequest();
-                case 3 -> processAddChipsRequest();
-                case 4 -> {
-                    System.out.println("\nDisplaying Checkout Screen...\n");
-                    Thread.sleep(500);
-                    checkoutScreenDisplay();
-                }
-                case 0 -> {
-                    System.out.println("Cancelling order, and returning to Home Screen...");
-                    Thread.sleep(500);
+            } while (selection != 0);
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
 
-                    processCancelOrderRequest();
-                    return;
-                }
-                default -> System.out.println("Invalid choice! Please try again.");
-            }
-        } while (selection != 0);
     }
 
-    private void processAddDrinkRequest() {
-        System.out.println("Add Drink");
+    private void processAddDrinkRequest(Order order) {
+
     }
 
     private void processAddChipsRequest() {
