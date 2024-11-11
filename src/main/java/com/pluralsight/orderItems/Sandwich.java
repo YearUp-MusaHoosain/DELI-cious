@@ -7,19 +7,23 @@ public class Sandwich extends FoodItem {
 
     private String sandwichBread;
     private String sandwichSize;
+    private String wantToasted;
     private List<Toppings> toppingsList = new ArrayList<>();
 
     // CONSTRUCTORS
-    public Sandwich(){}
 
-    public Sandwich(String sandwichBread, String sandwichSize) {
+    public Sandwich(String name, int quantity, String sandwichBread, String sandwichSize, String wantToasted) {
+        super(name, quantity);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
+        this.wantToasted = wantToasted;
     }
 
-    public Sandwich(String sandwichBread, String sandwichSize, List<Toppings> toppingsList) {
+    public Sandwich(String name, int quantity,String sandwichBread, String sandwichSize, String wantToasted, List<Toppings> toppingsList) {
+        super(name, quantity);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
+        this.wantToasted = wantToasted;
         this.toppingsList = toppingsList;
     }
 
@@ -48,9 +52,45 @@ public class Sandwich extends FoodItem {
         this.toppingsList = toppingsList;
     }
 
+    public String getWantToasted() {
+        return wantToasted;
+    }
+
+    public void setWantToasted(String wantToasted) {
+        this.wantToasted = wantToasted;
+    }
+
     @Override
     public double calculatePrice() {
-        return 0;
+        /*
+        if sandwich is 4", and regular
+         */
+        double sandwich = 0;
+
+
+        try{
+            for (String chip : chipsArray){
+                if(chipsType.equalsIgnoreCase(chip)){
+                    return chips = 1.5;
+                }
+                else if(chipsType.equalsIgnoreCase("no")){
+                    return chips;
+                }
+                else {
+                    System.out.println("Do you want chips? \nPlease say the chip type, or 'No' if you don't want chips.");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid entry! Please choose a chip.");
+            e.printStackTrace();
+        }
+
+        return chips;
+    }
+
+    @Override
+    public String getName() {
+        return "";
     }
 
     @Override
