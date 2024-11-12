@@ -23,6 +23,11 @@ public class Console {
         return scanner.nextLine().trim();
     }
 
+    public static void displayDelayedString(String string) throws InterruptedException {
+        System.out.println(string);
+        Thread.sleep(500);
+    }
+
     /**
      * Prompt for string string, without a prompt to the user
      *

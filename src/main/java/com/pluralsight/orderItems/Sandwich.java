@@ -5,22 +5,26 @@ import java.util.List;
 
 public class Sandwich extends FoodItem {
 
+    private List<Double> sizePricesArrayList = new ArrayList<>(List.of(5.50, 7.00, 8.50));
+    private List<String> sandwichSizesArrayList = new ArrayList<>(List.of("4\"", "8\"", "12\""));
+    private List<String> sandwichBreadArrayList = new ArrayList<>(List.of("white", "wheat", "rye", "wrap"));
+
     private String sandwichBread;
     private String sandwichSize;
-    private String wantToasted;
+    private boolean wantToasted;
     private List<Toppings> toppingsList = new ArrayList<>();
 
     // CONSTRUCTORS
 
-    public Sandwich(String name, int quantity, String sandwichBread, String sandwichSize, String wantToasted) {
-        super(name, quantity);
+    public Sandwich(String name, String sandwichBread, String sandwichSize, boolean wantToasted) {
+        super(name, 0);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
         this.wantToasted = wantToasted;
     }
 
-    public Sandwich(String name, int quantity,String sandwichBread, String sandwichSize, String wantToasted, List<Toppings> toppingsList) {
-        super(name, quantity);
+    public Sandwich(String name, String sandwichBread, String sandwichSize, boolean wantToasted, List<Toppings> toppingsList) {
+        super(name, 0);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
         this.wantToasted = wantToasted;
@@ -52,53 +56,23 @@ public class Sandwich extends FoodItem {
         this.toppingsList = toppingsList;
     }
 
-    public String getWantToasted() {
+    public boolean isToasted() {
         return wantToasted;
     }
 
-    public void setWantToasted(String wantToasted) {
+    public void setWantToasted(boolean wantToasted) {
         this.wantToasted = wantToasted;
     }
 
     @Override
     public double calculatePrice() {
-        /*
-        if sandwich is 4", and regular
-         */
-        double sandwich = 0;
+        double basePrice = sizePricesArrayList.get(sandwichSizesArrayList.indexOf(sandwichSize));
+        double toppingPrice = toppingsList.stream()
+                .mapToDouble(Toppings::calculatePrice)
+                .sum();
 
-
-        try{
-            for (String chip : chipsArray){
-                if(chipsType.equalsIgnoreCase(chip)){
-                    return chips = 1.5;
-                }
-                else if(chipsType.equalsIgnoreCase("no")){
-                    return chips;
-                }
-                else {
-                    System.out.println("Do you want chips? \nPlease say the chip type, or 'No' if you don't want chips.");
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Invalid entry! Please choose a chip.");
-            e.printStackTrace();
-        }
-
-        return chips;
+        return basePrice + toppingPrice;
     }
 
-    @Override
-    public String getName() {
-        return "";
-    }
 
-    @Override
-    public String toString() {
-        return "Sandwich{" +
-                "sandwichBread='" + sandwichBread + '\'' +
-                ", sandwichSize='" + sandwichSize + '\'' +
-                ", toppingsList=" + toppingsList +
-                '}';
-    }
 }

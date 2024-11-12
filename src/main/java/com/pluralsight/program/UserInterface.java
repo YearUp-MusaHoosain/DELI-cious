@@ -31,29 +31,33 @@ public class UserInterface {
                 
                 >>> Enter your choice here:\s""";
 
-        int selection;
+        int selection = 0;
 
         // HOME SCREEN OPTIONS LOOP
-        try{
-            do {
-                selection = Console.PromptForInt(options);
-                switch (selection) {
-                    case 1 -> {
-                        Console.displayDelayedString("\nDisplaying Order Screen...\n");
-                        orderScreenDisplay();
-                    }
-                    case 0 -> {
-                        Console.displayDelayedString("\nExiting...\n");
-                        Console.displayDelayedString("Thank you, have a nice day!");
-                        System.exit(0);
-                    }
-                    default -> System.out.println("Invalid choice! Please try again.");
+
+        do {
+            try{
+            selection = Console.PromptForInt(options);
+            switch (selection) {
+                case 1 -> {
+                    Console.displayDelayedString("\nDisplaying Order Screen...\n");
+                    orderScreenDisplay();
                 }
-            } while (selection != 0);
-        } catch (Exception e) {
-            e.getMessage();
-            e.printStackTrace();
-        }
+                case 0 -> {
+                    Console.displayDelayedString("\nExiting...\n");
+                    Console.displayDelayedString("Thank you, have a nice day!");
+                    System.exit(0);
+                }
+                default -> System.out.println("Invalid choice! Please try again.");
+            }
+            } catch (Exception e) {
+                e.getMessage();
+                e.printStackTrace();
+            }
+        } while (selection != 0);
+
+
+
 
     }
 
@@ -63,13 +67,27 @@ public class UserInterface {
     // ORDER SCREEN
     public void orderScreenDisplay () throws InterruptedException {
 
-        String customerName = Console.PromptForString("Enter customer name: ");
-        String customerContactInfo = Console.PromptForString("Enter customer contact info: ");
+        System.out.println("""
+                 ╔════════════════════════════════════════════════╗
+                 ║                 Customer Info                  ║
+                 ╠════════════════════════════════════════════════╣
+                 ║                                                ║
+                 ║           To Order, Please enter your          ║
+                 ║        name and your contact info below        ║
+                 ║                                                ║
+                 ╚════════════════════════════════════════════════╝
+                \s""");
 
+
+        String customerName = Console.PromptForString(">>> Enter customer name: ");
+        String customerContactInfo = Console.PromptForString(">>> Enter customer contact info: ");
+
+        // CUSTOMER CLASS CREATES CUSTOMER INSTANCES OF NAME AND CONTACT INFO
+        // ORDER CLASS CREATES ORDER INSTANCES BY ORDERID
         Customer customer = salesSystem.createCustomer(customerName, customerContactInfo);
         Order order = customer.createOrder(salesSystem.getOrders().size() + 1);
 
-        //TODO: CREATE CUSTOMER CLASS TO CREATE CUSTOMER INSTANCES FOR DIFFERENT ORDERS
+        Console.displayDelayedString("\nThank you! Displaying Order Screen now...\n");
 
         String options = """
                 ╔════════════════════════════════════════════════╗
@@ -88,11 +106,12 @@ public class UserInterface {
                 
                 >>> Enter your choice here:\s""";
 
-        int selection;
+        int selection = 0;
 
         // ORDER SCREEN OPTIONS LOOP
-        try{
+
             do {
+                try{
                 selection = Console.PromptForInt(options);
                 switch (selection) {
                     case 1 -> {
@@ -112,16 +131,19 @@ public class UserInterface {
                     }
                     default -> System.out.println("Invalid choice! Please try again.");
                 }
+                } catch (Exception e) {
+                    e.getMessage();
+                    e.printStackTrace();
+                }
             } while (selection != 0);
-        } catch (Exception e) {
-            e.getMessage();
-            e.printStackTrace();
-        }
+
 
     }
 
     private void processAddDrinkRequest(Order order) {
+
         int customerDrink = Console.PromptForInt("Select drink: ");
+
         for (int i = 0; i < salesSystem.getMenu().getDrinkList().size(); i++){
             Drink drink = salesSystem.getMenu().getDrinkList().get(i);
             System.out.println((i + 1) + ") " + drink.getName());
@@ -131,7 +153,9 @@ public class UserInterface {
     }
 
     private void processAddChipsRequest(Order order) {
+
         int customerChips = Console.PromptForInt("Select Chips: ");
+
         for (int i = 0; i < salesSystem.getMenu().getChipsList().size(); i++){
             Chips chips = salesSystem.getMenu().getChipsList().get(i);
             System.out.println((i + 1) + ") " + chips.getName());
