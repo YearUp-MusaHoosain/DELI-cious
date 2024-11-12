@@ -13,6 +13,7 @@ public class Menu {
         this.toppingsList = new ArrayList<>();
         this.drinkList = new ArrayList<>();
         this.chipsList = new ArrayList<>();
+        createMenu();
     }
 
     public List<Toppings> getToppingsList(){

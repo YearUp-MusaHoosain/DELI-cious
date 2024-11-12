@@ -23,9 +23,24 @@ public class Console {
         return scanner.nextLine().trim();
     }
 
-    public static void displayDelayedString(String string) throws InterruptedException {
-        System.out.println(string);
-        Thread.sleep(500);
+    public static void displayDelayedString(String string)  {
+        try{
+            System.out.println(string);
+            Thread.sleep(500);
+        } catch(InterruptedException e) {
+        System.out.println("got interrupted!");
+        e.printStackTrace();
+        }
+    }
+
+    public static void displayMoreDelayedString(String string)  {
+        try{
+            System.out.println(string);
+            Thread.sleep(1000);
+        } catch(InterruptedException e) {
+            System.out.println("got interrupted!");
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -11,19 +11,19 @@ public class Sandwich extends FoodItem {
 
     private String sandwichBread;
     private String sandwichSize;
-    private boolean wantToasted;
+    private String wantToasted;
     private List<Toppings> toppingsList = new ArrayList<>();
 
     // CONSTRUCTORS
 
-    public Sandwich(String name, String sandwichBread, String sandwichSize, boolean wantToasted) {
+    public Sandwich(String name, String sandwichSize, String sandwichBread, String wantToasted) {
         super(name, 0);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
         this.wantToasted = wantToasted;
     }
 
-    public Sandwich(String name, String sandwichBread, String sandwichSize, boolean wantToasted, List<Toppings> toppingsList) {
+    public Sandwich(String name, String sandwichSize, String sandwichBread, String wantToasted, List<Toppings> toppingsList) {
         super(name, 0);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
@@ -56,11 +56,11 @@ public class Sandwich extends FoodItem {
         this.toppingsList = toppingsList;
     }
 
-    public boolean isToasted() {
+    public String wantToasted() {
         return wantToasted;
     }
 
-    public void setWantToasted(boolean wantToasted) {
+    public void setWantToasted(String wantToasted) {
         this.wantToasted = wantToasted;
     }
 

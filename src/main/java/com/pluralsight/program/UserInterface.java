@@ -15,7 +15,7 @@ public class UserInterface {
 
 
     // HOME SCREEN
-    public void homeScreenDisplay() throws InterruptedException {
+    public void homeScreenDisplay() {
 
         String options = """
                 ╔════════════════════════════════════════════════╗
@@ -65,7 +65,7 @@ public class UserInterface {
 
 
     // ORDER SCREEN
-    public void orderScreenDisplay () throws InterruptedException {
+    public void orderScreenDisplay() {
 
         System.out.println("""
                  ╔════════════════════════════════════════════════╗
@@ -80,7 +80,7 @@ public class UserInterface {
 
 
         String customerName = Console.PromptForString(">>> Enter customer name: ");
-        String customerContactInfo = Console.PromptForString(">>> Enter customer contact info: ");
+        String customerContactInfo = Console.PromptForString(">>> Enter customer phone number: ");
 
         // CUSTOMER CLASS CREATES CUSTOMER INSTANCES OF NAME AND CONTACT INFO
         // ORDER CLASS CREATES ORDER INSTANCES BY ORDERID
@@ -141,27 +141,36 @@ public class UserInterface {
     }
 
     private void processAddDrinkRequest(Order order) {
+        try{
+            System.out.println("\nSelect Drink:");
 
-        int customerDrink = Console.PromptForInt("Select drink: ");
+            for (int i = 0; i < salesSystem.getMenu().getDrinkList().size(); i++){
+                Drink drink = salesSystem.getMenu().getDrinkList().get(i);
+                System.out.println((i + 1) + ") " + drink.getName());
+            }
 
-        for (int i = 0; i < salesSystem.getMenu().getDrinkList().size(); i++){
-            Drink drink = salesSystem.getMenu().getDrinkList().get(i);
-            System.out.println((i + 1) + ") " + drink.getName());
+            int customerDrink = Console.PromptForInt(">>> Enter (1), (2), (3) for drink: ");
+            Drink drink = salesSystem.getMenu().getDrinkList().get(customerDrink - 1);
+            order.addItem(drink);
+            Console.displayMoreDelayedString("\n ----- Selected \"" + drink + "\". Added to Checkout! -----\n");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        Drink drink = salesSystem.getMenu().getDrinkList().get(customerDrink - 1);
-        order.addItem(drink);
+
     }
 
     private void processAddChipsRequest(Order order) {
-
-        int customerChips = Console.PromptForInt("Select Chips: ");
+        System.out.println("\nSelect Chips:");
 
         for (int i = 0; i < salesSystem.getMenu().getChipsList().size(); i++){
             Chips chips = salesSystem.getMenu().getChipsList().get(i);
             System.out.println((i + 1) + ") " + chips.getName());
         }
+
+        int customerChips = Console.PromptForInt(">>> Select Chips: ");
         Drink chips = salesSystem.getMenu().getDrinkList().get(customerChips - 1);
         order.addItem(chips);
+        Console.displayMoreDelayedString("\n ----- Selected \"" + chips + "\". Added to Checkout! -----\n");
     }
 
 
@@ -169,7 +178,7 @@ public class UserInterface {
 
     // todo COME BACK AND SORT OUT HOW TO TAKE CARE OF SANDWICHES AND TOPPINGS SCREENS
     // ADD SANDWICH DISPLAY
-    private void addSandwichScreenDisplay() throws InterruptedException {
+    private void addSandwichScreenDisplay() {
         String orderScreenOptions = """
                 ╔════════════════════════════════════════════════╗
                 ║               ADD SANDWICH SCREEN              ║
@@ -200,7 +209,7 @@ public class UserInterface {
                 ║   - bacon      |              |  - cucumbers   ║
                 ║   - bacon      |              |  - pickles     ║
                 ║   - bacon      |              |  - guacamole   ║
-                ║                                  - mushrooms   ║
+                ║                |              |  - mushrooms   ║
                 ║                                                ║
                 ║      Would you like the sandwich toasted?      ║
                 ║                                                ║
@@ -252,9 +261,7 @@ public class UserInterface {
             selection = Console.PromptForInt(orderScreenOptions);
             switch (selection) {
                 case 0 -> {
-                    System.out.println("Cancelling order, and returning to Home Screen...");
-                    Thread.sleep(500);
-
+                    Console.displayDelayedString("Cancelling order, and returning to Home Screen...");
                     processCancelOrderRequest();
                     return;
                 }

@@ -8,7 +8,6 @@ public abstract class FoodItem implements FoodItemInterface{
 
     private String name;
     private double price;
-    static ArrayList<FoodItem> cart = new ArrayList<FoodItem>();
 
     public FoodItem(String name, double price) {
         this.name = name;
@@ -21,11 +20,11 @@ public abstract class FoodItem implements FoodItemInterface{
 
     @Override
     public double calculatePrice() {
-        return 0;
+        return price;
     }
 
     @Override
     public String getName() {
-        return "";
+        return name;
     }
 }
