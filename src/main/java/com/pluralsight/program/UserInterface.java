@@ -1,9 +1,15 @@
 package com.pluralsight.program;
 
+import com.pluralsight.checkout.Customer;
 import com.pluralsight.checkout.Order;
+import com.pluralsight.checkout.SalesSystem;
+import com.pluralsight.orderItems.Chips;
+import com.pluralsight.orderItems.Drink;
 import com.pluralsight.utils.Console;
 
 public class UserInterface {
+
+    private static SalesSystem salesSystem = new SalesSystem();
 
     public UserInterface(){}
 
@@ -60,6 +66,9 @@ public class UserInterface {
         String customerName = Console.PromptForString("Enter customer name: ");
         String customerContactInfo = Console.PromptForString("Enter customer contact info: ");
 
+        Customer customer = salesSystem.createCustomer(customerName, customerContactInfo);
+        Order order = customer.createOrder(salesSystem.getOrders().size() + 1);
+
         //TODO: CREATE CUSTOMER CLASS TO CREATE CUSTOMER INSTANCES FOR DIFFERENT ORDERS
 
         String options = """
@@ -90,8 +99,8 @@ public class UserInterface {
                         Console.displayDelayedString("\nDisplaying Add Sandwich Screen...\n");
                         addSandwichScreenDisplay();
                     }
-                    case 2 -> processAddDrinkRequest();
-                    case 3 -> processAddChipsRequest();
+                    case 2 -> processAddDrinkRequest(order);
+                    case 3 -> processAddChipsRequest(order);
                     case 4 -> {
                         Console.displayDelayedString("\nDisplaying Checkout Screen...\n");
                         checkoutScreenDisplay();
@@ -112,11 +121,23 @@ public class UserInterface {
     }
 
     private void processAddDrinkRequest(Order order) {
-
+        int customerDrink = Console.PromptForInt("Select drink: ");
+        for (int i = 0; i < salesSystem.getMenu().getDrinkList().size(); i++){
+            Drink drink = salesSystem.getMenu().getDrinkList().get(i);
+            System.out.println((i + 1) + ") " + drink.getName());
+        }
+        Drink drink = salesSystem.getMenu().getDrinkList().get(customerDrink - 1);
+        order.addItem(drink);
     }
 
-    private void processAddChipsRequest() {
-        System.out.println("Add Chips");
+    private void processAddChipsRequest(Order order) {
+        int customerChips = Console.PromptForInt("Select Chips: ");
+        for (int i = 0; i < salesSystem.getMenu().getChipsList().size(); i++){
+            Chips chips = salesSystem.getMenu().getChipsList().get(i);
+            System.out.println((i + 1) + ") " + chips.getName());
+        }
+        Drink chips = salesSystem.getMenu().getDrinkList().get(customerChips - 1);
+        order.addItem(chips);
     }
 
 

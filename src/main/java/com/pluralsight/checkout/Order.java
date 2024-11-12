@@ -2,25 +2,57 @@ package com.pluralsight.checkout;
 
 import com.pluralsight.orderItems.FoodItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
 
-    private List<FoodItem> cart;
+    private int orderID;
+    private Customer customer;
+    private List<FoodItem> foodItems;
     private double totalPrice;
-    private int numberOfItems;
-    private int numberOfDrinks;
-    private int numberOfChips;
-    private int numberOfSandwiches;
 
-    public Order() {}
+    public Order(int orderID, Customer customer){
+        this.orderID = orderID;
+        this.customer = customer;
+        this.foodItems = new ArrayList<>();
+        this.totalPrice = 0.0;
+    }
 
-    public Order(List<FoodItem> cart, double totalPrice, int numberOfItems, int numberOfDrinks, int numberOfChips, int numberOfSandwiches) {
-        this.cart = cart;
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public List<FoodItem> getFoodItems() {
+        return foodItems;
+    }
+
+    public void setFoodItems(List<FoodItem> foodItems) {
+        this.foodItems = foodItems;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-        this.numberOfItems = numberOfItems;
-        this.numberOfDrinks = numberOfDrinks;
-        this.numberOfChips = numberOfChips;
-        this.numberOfSandwiches = numberOfSandwiches;
+    }
+
+    public void addItem(FoodItem foodItem){
+        foodItems.add(foodItem);
+        totalPrice = totalPrice + foodItem.calculatePrice();
     }
 }
