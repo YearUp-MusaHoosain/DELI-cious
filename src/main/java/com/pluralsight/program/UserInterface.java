@@ -175,17 +175,39 @@ public class UserInterface {
                 ║               ADD SANDWICH SCREEN              ║
                 ╠════════════════════════════════════════════════╣
                 ║                                                ║
-                ║   Please select from the following choices:    ║
+                ║           Please make selections for           ║
+                ║             the following choices:             ║
                 ║                                                ║
                 ║        Select your bread:                      ║
+                ║          - white                               ║
+                ║          - wheat                               ║
+                ║          - rye                                 ║
+                ║          - wrap                                ║
+                ║                                                ║
                 ║        Sandwich size:                          ║
+                ║          - 4"                                  ║
+                ║          - 8"                                  ║
+                ║          - 12"                                 ║
+                ║                                                ║
                 ║        Toppings:                               ║
-                ║        Would you like the sandwich toasted?    ║
+                ║    (Premium)   |   (Premium)  |  (Regular)     ║
+                ║    * Meats *   |  * Cheese *  |  * Veggies *   ║
+                ║   - steak      |  - American  |  - lettuce     ║
+                ║   - ham        |  - Provolone |  - peppers     ║
+                ║   - salami     |  - Cheddar   |  - onions      ║
+                ║   - roast beef |  - Swiss     |  - tomatoes    ║
+                ║   - chicken    |              |  - jalapenos   ║
+                ║   - bacon      |              |  - cucumbers   ║
+                ║   - bacon      |              |  - pickles     ║
+                ║   - bacon      |              |  - guacamole   ║
+                ║                                  - mushrooms   ║
+                ║                                                ║
+                ║      Would you like the sandwich toasted?      ║
+                ║                                                ║
                 ║        0 - Cancel Order                        ║
                 ║                                                ║
                 ╚════════════════════════════════════════════════╝
-                
-                >>> Enter your choice here! :\s""";
+                \n""";
 
         String breadOptions = """
                 ╔════════════════════════════════════════════════╗
