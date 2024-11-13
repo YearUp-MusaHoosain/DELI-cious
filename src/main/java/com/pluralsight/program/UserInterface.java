@@ -5,6 +5,8 @@ import com.pluralsight.checkout.Order;
 import com.pluralsight.checkout.SalesSystem;
 import com.pluralsight.orderItems.Chips;
 import com.pluralsight.orderItems.Drink;
+import com.pluralsight.orderItems.Sandwich;
+import com.pluralsight.orderItems.Toppings;
 import com.pluralsight.utils.Console;
 
 public class UserInterface {
@@ -116,10 +118,16 @@ public class UserInterface {
                 switch (selection) {
                     case 1 -> {
                         Console.displayDelayedString("\nDisplaying Add Sandwich Screen...\n");
-                        addSandwichScreenDisplay();
+                        addSandwichScreenDisplay(order);
                     }
-                    case 2 -> processAddDrinkRequest(order);
-                    case 3 -> processAddChipsRequest(order);
+                    case 2 -> {
+                        Console.displayDelayedString("\nDisplaying Drink Screen...\n");
+                        processAddDrinkRequest(order);
+                    }
+                    case 3 -> {
+                        Console.displayDelayedString("\nDisplaying Chips Screen...\n");
+                        processAddChipsRequest(order);
+                    }
                     case 4 -> {
                         Console.displayDelayedString("\nDisplaying Checkout Screen...\n");
                         checkoutScreenDisplay();
@@ -141,14 +149,29 @@ public class UserInterface {
     }
 
     private void processAddDrinkRequest(Order order) {
-        try{
-            System.out.println("\nSelect Drink:");
 
-            for (int i = 0; i < salesSystem.getMenu().getDrinkList().size(); i++){
+        Runnable drinkLoop = () -> {
+            for (int i = 0; i < salesSystem.getMenu().getDrinkList().size(); i++) {
                 Drink drink = salesSystem.getMenu().getDrinkList().get(i);
-                System.out.println((i + 1) + ") " + drink.getName());
+                System.out.println("║        " + (i + 1) + " - " + drink.getName() + "                         ║");
             }
+        };
 
+        System.out.println("""
+                ╔════════════════════════════════════════════════╗
+                ║                  DRINK SCREEN                  ║
+                ╠════════════════════════════════════════════════╣
+                ║                                                ║
+                ║   Please select from the following choices:    ║
+                ║                                                ║""");
+        drinkLoop.run();
+        System.out.println("""
+                ║                                                ║
+                ╚════════════════════════════════════════════════╝
+                """);
+
+        try {
+            System.out.println("Select Drink:");
             int customerDrink = Console.PromptForInt(">>> Enter (1), (2), (3) for drink: ");
             Drink drink = salesSystem.getMenu().getDrinkList().get(customerDrink - 1);
             order.addItem(drink);
@@ -160,12 +183,30 @@ public class UserInterface {
     }
 
     private void processAddChipsRequest(Order order) {
-        System.out.println("\nSelect Chips:");
 
-        for (int i = 0; i < salesSystem.getMenu().getChipsList().size(); i++){
-            Chips chips = salesSystem.getMenu().getChipsList().get(i);
-            System.out.println((i + 1) + ") " + chips.getName());
-        }
+        Runnable chipsLoop = () -> {
+            for (int i = 0; i < salesSystem.getMenu().getChipsList().size(); i++){
+                Chips chips = salesSystem.getMenu().getChipsList().get(i);
+                System.out.println("║        " + (i + 1) + " - " + chips.getName() + "                               ║");
+            }
+        };
+
+
+        System.out.println("""
+                ╔════════════════════════════════════════════════╗
+                ║                  ORDER SCREEN                  ║
+                ╠════════════════════════════════════════════════╣
+                ║                                                ║
+                ║   Please select from the following choices:    ║
+                ║                                                ║""");
+        chipsLoop.run();
+        System.out.println("""
+                ║                                                ║
+                ╚════════════════════════════════════════════════╝
+                """);
+        System.out.println("Select Chips:");
+
+
 
         int customerChips = Console.PromptForInt(">>> Select Chips: ");
         Drink chips = salesSystem.getMenu().getDrinkList().get(customerChips - 1);
@@ -176,103 +217,102 @@ public class UserInterface {
 
 
 
-    // todo COME BACK AND SORT OUT HOW TO TAKE CARE OF SANDWICHES AND TOPPINGS SCREENS
     // ADD SANDWICH DISPLAY
-    private void addSandwichScreenDisplay() {
+    private void addSandwichScreenDisplay(Order order) {
         String orderScreenOptions = """
-                ╔════════════════════════════════════════════════╗
-                ║               ADD SANDWICH SCREEN              ║
-                ╠════════════════════════════════════════════════╣
-                ║                                                ║
-                ║           Please make selections for           ║
-                ║             the following choices:             ║
-                ║                                                ║
-                ║        Select your bread:                      ║
-                ║          - white                               ║
-                ║          - wheat                               ║
-                ║          - rye                                 ║
-                ║          - wrap                                ║
-                ║                                                ║
-                ║        Sandwich size:                          ║
-                ║          - 4"                                  ║
-                ║          - 8"                                  ║
-                ║          - 12"                                 ║
-                ║                                                ║
-                ║        Toppings:                               ║
-                ║    (Premium)   |   (Premium)  |  (Regular)     ║
-                ║    * Meats *   |  * Cheese *  |  * Veggies *   ║
-                ║   - steak      |  - American  |  - lettuce     ║
-                ║   - ham        |  - Provolone |  - peppers     ║
-                ║   - salami     |  - Cheddar   |  - onions      ║
-                ║   - roast beef |  - Swiss     |  - tomatoes    ║
-                ║   - chicken    |              |  - jalapenos   ║
-                ║   - bacon      |              |  - cucumbers   ║
-                ║   - bacon      |              |  - pickles     ║
-                ║   - bacon      |              |  - guacamole   ║
-                ║                |              |  - mushrooms   ║
-                ║                                                ║
-                ║      Would you like the sandwich toasted?      ║
-                ║                                                ║
-                ║        0 - Cancel Order                        ║
-                ║                                                ║
-                ╚════════════════════════════════════════════════╝
+                ╔═══════════════════════════════════════════════════════════════════════════╗
+                ║                            ADD SANDWICH SCREEN                            ║
+                ╠═══════════════════════════════════════════════════════════════════════════╣
+                ║                                                                           ║
+                ║                         Please make selections for                        ║
+                ║                           the following choices:                          ║
+                ║                                                                           ║
+                ║===========================================================================║
+                ║                                                                           ║
+                ║                    ---------- Select Bread: ----------                    ║
+                ║                      -------------------------------                      ║
+                ║                                                                           ║
+                ║                                 1) white                                  ║
+                ║                                 2) wheat                                  ║
+                ║                                 3) rye                                    ║
+                ║                                 4) wrap                                   ║
+                ║                                                                           ║
+                ║---------------------------------------------------------------------------║
+                ║                                                                           ║
+                ║                  -------- Select Sandwich Size: --------                  ║
+                ║                      -------------------------------                      ║
+                ║                                                                           ║
+                ║                                 1) 4"                                     ║
+                ║                                 2) 8"                                     ║
+                ║                                 3) 12"                                    ║
+                ║                                                                           ║
+                ║---------------------------------------------------------------------------║
+                ║                                                                           ║
+                ║                      ---------- Toppings: ----------                      ║
+                ║                      -------------------------------                      ║
+                ║                                                                           ║
+                ║     ($ Premium $) | ($ Premium $) |   (Regular)    |   (Regular)          ║
+                ║       * Meats *   |  * Cheese *   |  * Veggies *   |  * Sauces *          ║
+                ║                                                                           ║
+                ║    (1) steak      | (7) American  | (11) lettuce   | (20) Mayo            ║
+                ║    (2) ham        | (8) Provolone | (12) peppers   | (21) Mustard         ║
+                ║    (3) salami     | (9) Cheddar   | (13) onions    | (22) Ketchup         ║
+                ║    (4) roast beef | (10) Swiss    | (14) tomatoes  | (23) Ranch           ║
+                ║    (5) chicken    |               | (15) jalapenos | (24) Thousand        ║
+                ║    (6) bacon      |               | (16) cucumbers |      Islands         ║
+                ║                   |               | (17) pickles   | (25) Vinaigrette     ║
+                ║                   |               | (18) guacamole | (26) Au Jus          ║
+                ║                   |               | (19) mushrooms | (27) Sauce           ║
+                ║                   |               |                |                      ║
+                ║                                                                           ║
+                ║---------------------------------------------------------------------------║
+                ║                                                                           ║
+                ║                   Would you like the sandwich toasted?                    ║
+                ║                                                                           ║
+                ║---------------------------------------------------------------------------║
+                ║                                                                           ║
+                ║                            0 - Cancel Order                               ║
+                ║                                                                           ║
+                ╚═══════════════════════════════════════════════════════════════════════════╝
                 \n""";
 
-        String breadOptions = """
-                ╔════════════════════════════════════════════════╗
-                ║           WHAT BREAD WOULD YOU LIKE?           ║
-                ╠════════════════════════════════════════════════╣
-                ║                                                ║
-                ║   Please select from the following choices:    ║
-                ║                                                ║
-                ║        1 - White                               ║
-                ║        2 - Wheat                               ║
-                ║        3 - Rye                                 ║
-                ║        4 - Wrap                                ║
-                ║        0 - Cancel Order                        ║
-                ║                                                ║
-                ╚════════════════════════════════════════════════╝
-                
-                >>> Enter your choice here! :\s""";
+        System.out.println(orderScreenOptions);
 
-        String toppingOptions = """
-                ╔════════════════════════════════════════════════╗
-                ║           WHAT BREAD WOULD YOU LIKE?           ║
-                ╠════════════════════════════════════════════════╣
-                ║                                                ║
-                ║   Please select from the following choices:    ║
-                ║                                                ║
-                ║        1 - Meat (Premium):                     ║
-                ║        2 - Cheese (Premium):                   ║
-                ║        3 - Other Toppings (Regular)            ║
-                ║        4 - Select Sauces                       ║
-                ║        0 - Cancel Order                        ║
-                ║                                                ║
-                ╚════════════════════════════════════════════════╝
-                
-                >>> Enter your choice here:\s""";
+        int breadChoice = Console.PromptForInt(">>> Select Bread: ");
+        int sizeChoice = Console.PromptForInt(">>> Select Size: ");
 
-        int selection;
+        try{
+            if (breadChoice >=1 && breadChoice <= Sandwich.sandwichBreadArrayList.size() &&
+                    sizeChoice >= 1 && sizeChoice <= Sandwich.sandwichSizesArrayList.size()){
 
-        // ADD SANDWICH SCREEN OPTIONS LOOP
-        do {
+                Sandwich sandwich = new Sandwich("Sandwich", Sandwich.sandwichBreadArrayList.get(breadChoice - 1), Sandwich.sandwichSizesArrayList.get(sizeChoice - 1));
 
-
-            selection = Console.PromptForInt(orderScreenOptions);
-            switch (selection) {
-                case 0 -> {
-                    Console.displayDelayedString("Cancelling order, and returning to Home Screen...");
-                    processCancelOrderRequest();
-                    return;
+                while (true){
+                    int toppingChoice = Console.PromptForInt(">>> Add Toppings (Done with toppings? Enter 0): ");
+                    if (toppingChoice == 0){
+                        break;
+                    }
+                    else {
+                        Toppings topping = salesSystem.getMenu().getToppingsList().get(toppingChoice - 1);
+                        sandwich.addTopping(topping);
+                    }
                 }
-                default -> System.out.println("Invalid choice! Please try again.");
+                String toastedChoice = Console.PromptForString(">>> Would you like the sandwich toasted? (yes / no): ");
+                sandwich.setWantToasted(toastedChoice.equalsIgnoreCase("yes"));
+
+                order.addItem(sandwich);
             }
-        } while (selection != 0);
-    }
+            else if (userInput == 0) {
 
-
-    private void processAddSandwichRequest() {
-        System.out.println("Add Sandwich");
+                return;
+            }
+            else{
+                System.out.println("Invalid choice. Please select a valid option.");
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR!! Please enter a valid option");
+            e.printStackTrace();
+        }
     }
 
 

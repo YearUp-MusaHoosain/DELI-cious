@@ -5,25 +5,26 @@ import java.util.List;
 
 public class Sandwich extends FoodItem {
 
-    private List<Double> sizePricesArrayList = new ArrayList<>(List.of(5.50, 7.00, 8.50));
-    private List<String> sandwichSizesArrayList = new ArrayList<>(List.of("4\"", "8\"", "12\""));
-    private List<String> sandwichBreadArrayList = new ArrayList<>(List.of("white", "wheat", "rye", "wrap"));
+    public static List<Double> sandwichsizePricesArrayList = new ArrayList<>(List.of(5.50, 7.00, 8.50));
+    public static List<String> sandwichSizesArrayList = new ArrayList<>(List.of("4\"", "8\"", "12\""));
+    public static List<String> sandwichBreadArrayList = new ArrayList<>(List.of("white", "wheat", "rye", "wrap"));
 
     private String sandwichBread;
     private String sandwichSize;
-    private String wantToasted;
-    private List<Toppings> toppingsList = new ArrayList<>();
+    private List<Toppings> toppingsList;
+    boolean wantToasted;
 
     // CONSTRUCTORS
 
-    public Sandwich(String name, String sandwichSize, String sandwichBread, String wantToasted) {
+    public Sandwich(String name, String sandwichBread, String sandwichSize) {
         super(name, 0);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
-        this.wantToasted = wantToasted;
+        this.toppingsList = new ArrayList<>();
+        this.wantToasted = false;
     }
 
-    public Sandwich(String name, String sandwichSize, String sandwichBread, String wantToasted, List<Toppings> toppingsList) {
+    public Sandwich(String name, String sandwichBread, String sandwichSize, boolean wantToasted, List<Toppings> toppingsList) {
         super(name, 0);
         this.sandwichBread = sandwichBread;
         this.sandwichSize = sandwichSize;
@@ -56,17 +57,21 @@ public class Sandwich extends FoodItem {
         this.toppingsList = toppingsList;
     }
 
-    public String wantToasted() {
+    public boolean wantToasted() {
         return wantToasted;
     }
 
-    public void setWantToasted(String wantToasted) {
+    public void setWantToasted(boolean wantToasted) {
         this.wantToasted = wantToasted;
+    }
+
+    public void addTopping(Toppings toppings){
+        toppingsList.add(toppings);
     }
 
     @Override
     public double calculatePrice() {
-        double basePrice = sizePricesArrayList.get(sandwichSizesArrayList.indexOf(sandwichSize));
+        double basePrice = sandwichsizePricesArrayList.get(sandwichSizesArrayList.indexOf(sandwichSize));
         double toppingPrice = toppingsList.stream()
                 .mapToDouble(Toppings::calculatePrice)
                 .sum();
