@@ -1,0 +1,21 @@
+Order ID: 16212
+Customer: Musa (1234567890)
+----------------------------------
+8" Sandwich on White Bread - 9.50
+  + Steak (Premium)
+  + American Cheese (Premium)
+  + Provolone Cheese (Premium)
+  + Lettuce
+  + Peppers
+  + Tomatoes
+  + Onions
+  + Cucumbers
+  + Mayo
+Small Drink - $2.00
+Medium Drink - $2.50
+Small Drink - $2.00
+========================
+
+Total Price: $16.00
+
+========================

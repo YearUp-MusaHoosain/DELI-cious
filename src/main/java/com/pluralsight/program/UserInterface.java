@@ -291,7 +291,7 @@ public class UserInterface {
                 t = false;
             }
         }
-        
+
 
         try {
             int toppingChoice;
@@ -390,7 +390,7 @@ public class UserInterface {
                 Sandwich sandwich = (Sandwich) item;
 //                System.out.println(sandwich.getSandwichSize() + " Sandwich on " + sandwich.getSandwichBread() + " - $" + sandwich.calculatePrice());
                 System.out.printf("%s Sandwich on %s - %.2f\n", sandwich.getSandwichSize(), sandwich.getSandwichBread(), sandwich.calculatePrice());
-                System.out.println("- Toppings:");
+                System.out.println("Toppings:");
                 for (Toppings topping : sandwich.getToppingsList()) {
                     System.out.println("  + " + topping.getName());
                 }
@@ -398,11 +398,11 @@ public class UserInterface {
             } else if (item instanceof Drink) {
                 Drink drink = (Drink) item;
 //                System.out.println(drink.getName() + " - $" + drink.getPrice());
-                System.out.printf("%s - $%.2f", drink.getName(), drink.getPrice());
+                System.out.printf("- %s - $%.2f\n", drink.getName(), drink.getPrice());
             } else if (item instanceof Chips) {
                 Chips chips = (Chips) item;
 //                System.out.println(chips.getName() + " - $" + chips.getPrice());
-                System.out.printf("%s - $%.2f", chips.getName(), chips.getPrice());
+                System.out.printf("- %s - $%.2f\n", chips.getName(), chips.getPrice());
             }
         }
 //        System.out.println("Total: $" + order.getTotalPrice());
