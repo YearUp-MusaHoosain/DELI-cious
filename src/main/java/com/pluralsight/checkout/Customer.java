@@ -18,7 +18,7 @@ public class Customer {
         return phoneNumber;
     }
 
-    public Order createOrder (int orderID){
-        return new Order(orderID, this);
+    public Order createOrder (int id){
+        return new Order(id, this);
     }
 }

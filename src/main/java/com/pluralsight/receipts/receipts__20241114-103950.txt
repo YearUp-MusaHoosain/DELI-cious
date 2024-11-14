@@ -1,0 +1,14 @@
+Order ID: 1
+Customer: rg (gr)
+----------------------------------
+4" Sandwich on White Bread - 10.50
+  + Steak (Premium)
+  + Ham (Premium)
+  + Salami (Premium)
+  + Roast Beef (Premium)
+  + Chicken (Premium)
+========================
+
+Total Price: $10.50
+
+========================

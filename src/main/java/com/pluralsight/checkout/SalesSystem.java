@@ -4,6 +4,7 @@ import com.pluralsight.orderItems.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SalesSystem {
 
@@ -29,6 +30,22 @@ public class SalesSystem {
 
     public Customer createCustomer(String name, String contactInfo){
         return new Customer(name, contactInfo);
+    }
+
+    public int validateOrderID(){
+        Random random = new Random();
+        int id = 0;
+
+        while(true){
+            id = random.nextInt(1, 20001);
+            int finalId = id;
+            boolean duplicated = orders.stream()
+                    .mapToInt(Order::getOrderID)
+                    .anyMatch(orderID -> orderID == finalId);
+
+            if (!duplicated) break;
+        }
+        return id;
     }
 
     public Order getOrderByID(int orderID){

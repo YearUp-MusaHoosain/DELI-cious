@@ -14,13 +14,11 @@ import java.util.List;
 
 public class OrderFileManager {
 
-    private Order orders;
-    private List<FoodItemInterface> foodItemInterfaces;
 
-    public void saveReceipt()
+    public void saveReceipt(Order orders)
     {
         File folder = new File("/receipts__");
-        String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
+        String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HH-mm-ss"));
         String folderName = "src/main/java/com/pluralsight/receipts";
         String fileName = folderName + folder + dateTime + ".txt";
 
@@ -30,9 +28,10 @@ public class OrderFileManager {
         {
             writer.write("Order ID: " + orders.getOrderID() + "\n");
             writer.write("Customer: " + orders.getCustomer().getName() + " (" + orders.getCustomer().getPhoneNumber() + ")\n----------------------------------\n");
-            for (FoodItemInterface item : foodItemInterfaces)
+            for (FoodItemInterface item : orders.getFoodItemInterfaces())
             {
                 if (item instanceof Sandwich) {
+                    System.out.println(item);
                     Sandwich sandwich = (Sandwich) item;
                     String sandwichFormattedString = String.format("%s Sandwich on %s - %.2f\n", sandwich.getSandwichSize(), sandwich.getSandwichBread(), sandwich.calculatePrice());
                     writer.write(sandwichFormattedString);
@@ -42,6 +41,7 @@ public class OrderFileManager {
                         writer.write("  + " + topping.getName() + (topping.isPremium() ? " (Premium)" : "") + "\n");
                     }
                 } else {
+                    System.out.println(item);
                     String itemFormattedString = String.format("%s - $%.2f\n", item.getName(), item.calculatePrice());
                     writer.write(itemFormattedString);
 //                    writer.write(item.getName() + " - $" + item.calculatePrice() + "\n");

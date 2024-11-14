@@ -1,0 +1,12 @@
+Order ID: 1
+Customer: Musa (1234567890)
+----------------------------------
+4" Sandwich on White Bread - 8.50
+  + Steak (Premium)
+  + Ham (Premium)
+  + Salami (Premium)
+========================
+
+Total Price: $8.50
+
+========================

@@ -1,6 +1,10 @@
 package com.pluralsight.utils;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.Scanner;
+
+import static org.apache.commons.lang3.math.NumberUtils.isNumber;
 
 /**
  * The Console class stores all the utility methods.
@@ -19,7 +23,12 @@ public class Console {
      * @return the string
      */
     public static String PromptForString(String prompt){
-        System.out.print(prompt);
+        try{
+            System.out.print(prompt);
+        } catch (Exception e) {
+            System.out.println("Please enter a string input!");
+            e.printStackTrace();
+        }
         return scanner.nextLine().trim();
     }
 
@@ -59,8 +68,13 @@ public class Console {
      * @return the boolean
      */
     public static boolean PromptForYesNo(String prompt){
-        System.out.print(prompt + " ( Y for Yes, N for No ) ?");
-        String userInput = scanner.nextLine().trim();
+        String userInput = "";
+        try{
+            System.out.print(prompt + " ( Y for Yes, N for No ) ?");
+            userInput = scanner.nextLine().trim();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return
                 (
@@ -78,10 +92,17 @@ public class Console {
      * @return the short
      */
     public static short PromptForShort(String prompt){
-        System.out.print(prompt);
-        String value = scanner.nextLine();
-        short userinput = Short.parseShort(value);
-        return  userinput;
+        short userInput = 0;
+        try{
+            System.out.print(prompt);
+            String value = scanner.nextLine();
+            userInput = Short.parseShort(value);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a number input!");
+            e.printStackTrace();
+        }
+        return  userInput;
     }
 
     /**
@@ -91,10 +112,17 @@ public class Console {
      * @return the int
      */
     public static int PromptForInt(String prompt){
-        System.out.print(prompt);
-        String value = scanner.nextLine();
-        int userinput = Integer.parseInt(value);
-        return userinput;
+        try{
+            System.out.print(prompt);
+            String value = scanner.nextLine();
+            if(!value.isEmpty() && NumberUtils.isCreatable(value)){
+                return Integer.parseInt(value);
+            }
+        } catch (Exception e) {
+            System.out.println("Please enter a number input!");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -103,9 +131,16 @@ public class Console {
      * @return the int
      */
     public static int PromptForInt(){
-        String value = scanner.nextLine();
-        int userinput = Integer.parseInt(value);
-        return userinput;
+        try{
+            String value = scanner.nextLine();
+            if(!value.isEmpty() && NumberUtils.isCreatable(value)){
+                return Integer.parseInt(value);
+            }
+        } catch (Exception e) {
+            System.out.println("Please enter a number input!");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 
@@ -116,10 +151,17 @@ public class Console {
      * @return the double
      */
     public static double PromptForDouble(String prompt){
-        System.out.print(prompt);
-        String userInputs = scanner.nextLine();
-        double userinput = Double.parseDouble(userInputs);
-        return userinput;
+        try{
+            System.out.print(prompt);
+            String value = scanner.nextLine();
+            if(!value.isEmpty() && NumberUtils.isCreatable(value)){
+                return Double.parseDouble(value);
+            }
+        } catch (Exception e) {
+            System.out.println("Please enter a number input!");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -129,10 +171,17 @@ public class Console {
      * @return the byte
      */
     public static byte PromptForByte(String prompt){
-        System.out.print(prompt);
-        String value = scanner.nextLine();
-        byte userinput = Byte.parseByte(value);
-        return userinput;
+        try{
+            System.out.print(prompt);
+            String value = scanner.nextLine();
+            if(!value.isEmpty() && NumberUtils.isCreatable(value)){
+                return Byte.parseByte(value);
+            }
+        } catch (Exception e) {
+            System.out.println("Please enter a number input!");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -141,9 +190,16 @@ public class Console {
      * @return the byte
      */
     public static byte PromptForByte(){
-        String value = scanner.nextLine();
-        byte userinput = Byte.parseByte(value);
-        return userinput;
+        try{
+            String value = scanner.nextLine();
+            if(!value.isEmpty() && NumberUtils.isCreatable(value)){
+                return Byte.parseByte(value);
+            }
+        } catch (Exception e) {
+            System.out.println("Please enter a number input!");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -153,10 +209,17 @@ public class Console {
      * @return the float
      */
     public static float PromptForFloat(String prompt){
-        System.out.print(prompt);
-        String value = scanner.nextLine();
-        float userinput = Float.parseFloat(value);
-        return  userinput;
+        try{
+            System.out.print(prompt);
+            String value = scanner.nextLine();
+            if(!value.isEmpty() && NumberUtils.isCreatable(value)){
+                return Float.parseFloat(value);
+            }
+        } catch (Exception e) {
+            System.out.println("Please enter a number input!");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

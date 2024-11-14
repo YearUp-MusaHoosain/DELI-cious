@@ -1,0 +1,13 @@
+Order ID: 16344
+Customer: Musa (123-456-7890)
+----------------------------------
+4" Sandwich on White Bread - 7.25
+  + Steak (Premium)
+  + American Cheese (Premium)
+  + Jalapenos
+  + Ranch
+========================
+
+Total Price: $7.25
+
+========================

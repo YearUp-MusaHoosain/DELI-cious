@@ -5,17 +5,18 @@ import com.pluralsight.checkout.Order;
 import com.pluralsight.checkout.SalesSystem;
 import com.pluralsight.fileManager.OrderFileManager;
 import com.pluralsight.interfaces.FoodItemInterface;
-import com.pluralsight.utils.Console;
 import com.pluralsight.orderItems.Chips;
 import com.pluralsight.orderItems.Drink;
 import com.pluralsight.orderItems.Sandwich;
 import com.pluralsight.orderItems.Toppings;
+import com.pluralsight.utils.Console;
 
 
 public class UserInterface {
 
     private static SalesSystem salesSystem = new SalesSystem();
     private static OrderFileManager orderFileManager = new OrderFileManager();
+
     public UserInterface() {
     }
 
@@ -87,7 +88,7 @@ public class UserInterface {
         // CUSTOMER CLASS CREATES CUSTOMER INSTANCES OF NAME AND CONTACT INFO
         // ORDER CLASS CREATES ORDER INSTANCES BY ORDERID
         Customer customer = salesSystem.createCustomer(customerName, customerContactInfo);
-        Order order = customer.createOrder(salesSystem.getOrders().size() + 1);
+        Order order = customer.createOrder(salesSystem.validateOrderID());
 
         Console.displayDelayedString("\nThank you! Displaying Order Screen now...\n");
 
@@ -275,8 +276,22 @@ public class UserInterface {
 
         System.out.println(orderScreenOptions);
 
-        int breadChoice = Console.PromptForInt(">>> Select Bread (Or Select 0 to Cancel Order): ");
-        int sizeChoice = Console.PromptForInt(">>> Select Size (Or Select 0 to Cancel Order): ");
+        int breadChoice = 0;
+        int sizeChoice = 0;
+
+        boolean t = true;
+        while (t){
+            try {
+                breadChoice = Console.PromptForInt(">>> Select Bread (Or Select 0 to Cancel Order): ");
+                sizeChoice = Console.PromptForInt(">>> Select Size (Or Select 0 to Cancel Order): ");
+            } catch (Exception e) {
+                System.out.println("Error! Please enter a valid input");
+                e.printStackTrace();
+            } finally {
+                t = false;
+            }
+        }
+        
 
         try {
             int toppingChoice;
@@ -285,27 +300,26 @@ public class UserInterface {
 
                 Sandwich sandwich = new Sandwich("Sandwich", Sandwich.sandwichBreadArrayList.get(breadChoice - 1), Sandwich.sandwichSizesArrayList.get(sizeChoice - 1));
 
-                try {
-                    do {
+                do {
+                    try {
                         toppingChoice = Console.PromptForInt(">>> Add Toppings (Done with toppings? Enter 99 | Want to Cancel Order? Enter 0): ");
                         if (toppingChoice == 99) {
                             break;
-                        }
-                        else if (toppingChoice == 0){
+                        } else if (toppingChoice == 0) {
                             order.removeAllItems();
                             homeScreenDisplay();
                             return;
-                        }
-                        else {
+                        } else {
                             Toppings topping = salesSystem.getMenu().getToppingsList().get(toppingChoice - 1);
                             sandwich.addTopping(topping);
                         }
-                    } while (true);
+                    } catch (Exception e) {
+                        System.out.println("Error! Please enter a valid input");
+                        e.getMessage();
+                    }
 
-                } catch (Exception e) {
-                    System.out.println("Error! Please enter a valid input");
-                    e.getMessage();
-                }
+                } while (true);
+
 
                 String toastedChoice = Console.PromptForString(">>> Would you like the sandwich toasted? (yes / no): ");
                 sandwich.setWantToasted(toastedChoice.equalsIgnoreCase("yes"));
@@ -381,13 +395,11 @@ public class UserInterface {
                     System.out.println("  + " + topping.getName());
                 }
                 System.out.println("- Toasted: " + (sandwich.wantToasted() ? "Yes" : "No"));
-            }
-            else if (item instanceof Drink) {
+            } else if (item instanceof Drink) {
                 Drink drink = (Drink) item;
 //                System.out.println(drink.getName() + " - $" + drink.getPrice());
                 System.out.printf("%s - $%.2f", drink.getName(), drink.getPrice());
-            }
-            else if (item instanceof Chips) {
+            } else if (item instanceof Chips) {
                 Chips chips = (Chips) item;
 //                System.out.println(chips.getName() + " - $" + chips.getPrice());
                 System.out.printf("%s - $%.2f", chips.getName(), chips.getPrice());
@@ -413,7 +425,8 @@ public class UserInterface {
             selection = Console.PromptForInt(options);
             switch (selection) {
                 case 1 -> {
-                    orderFileManager.saveReceipt();
+                    orderFileManager.saveReceipt(order);
+//                    order.saveReceipt();
                     Console.displayDelayedString("""
                             
                             ╭⋆✧✦✧⋆━━━━━━━━━━━━━━━━━━━━━━━━━━⋆✧✦✧⋆╮
@@ -423,7 +436,7 @@ public class UserInterface {
                             ┃    --- Returning to Home Screen ---   ┃
                             ┃                                       ┃
                             ╰⋆✧✦✧⋆━━━━━━━━━━━━━━━━━━━━━━━━━━⋆✧✦✧⋆╯
-                
+                            
                             """);
                     order.removeAllItems();
                     return;
@@ -506,12 +519,10 @@ public class UserInterface {
                     System.out.println("  + " + topping.getName());
                 }
                 System.out.println("- Toasted: " + (sandwich.wantToasted() ? "Yes" : "No"));
-            }
-            else if (item instanceof Drink) {
+            } else if (item instanceof Drink) {
                 Drink drink = (Drink) item;
                 System.out.println(drink.getName() + " - $" + drink.getPrice());
-            }
-            else if (item instanceof Chips) {
+            } else if (item instanceof Chips) {
                 Chips chips = (Chips) item;
                 System.out.println(chips.getName() + " - $" + chips.getPrice());
             }
