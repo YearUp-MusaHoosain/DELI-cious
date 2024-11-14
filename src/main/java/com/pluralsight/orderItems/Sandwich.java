@@ -7,7 +7,7 @@ public class Sandwich extends FoodItem {
 
     public static List<Double> sandwichsizePricesArrayList = new ArrayList<>(List.of(5.50, 7.00, 8.50));
     public static List<String> sandwichSizesArrayList = new ArrayList<>(List.of("4\"", "8\"", "12\""));
-    public static List<String> sandwichBreadArrayList = new ArrayList<>(List.of("white", "wheat", "rye", "wrap"));
+    public static List<String> sandwichBreadArrayList = new ArrayList<>(List.of("White Bread", "Wheat Bread", "Rye Bread", "Wrap Bread"));
 
     private String sandwichBread;
     private String sandwichSize;
@@ -79,5 +79,24 @@ public class Sandwich extends FoodItem {
         return basePrice + toppingPrice;
     }
 
+    @Override
+    public String toString() {
+        return """
+                ~~~~ Order Captured! ~~~~
+               
+                Your sandwich is:
+               
+                Bread Type =\s""" + sandwichBread +
+                """
+                
+                Bread Size =\s""" + sandwichSize +
+                """
+                
+                Chosen Toppings =\s""" + toppingsList +
+                """
+                
+                Toasted? =\s""" + wantToasted;
 
+
+    }
 }

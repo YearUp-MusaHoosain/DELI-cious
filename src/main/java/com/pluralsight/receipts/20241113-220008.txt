@@ -1,0 +1,19 @@
+Order ID: 1
+Customer: Musa (1234567890)
+----------------------------------
+12" Sandwich on White Bread - 14.50
+  + Steak (Premium)
+  + Ham (Premium)
+  + Salami (Premium)
+  + American Cheese (Premium)
+  + Provolone Cheese (Premium)
+  + Cheddar Cheese (Premium)
+  + Swiss Cheese (Premium)
+  + Vinaigrette
+Small Drink - $2.00
+Small Drink - $2.00
+----------------------------------
+
+Total Price: $18.50
+
+----------------------------------

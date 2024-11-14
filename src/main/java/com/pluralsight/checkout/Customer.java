@@ -3,19 +3,19 @@ package com.pluralsight.checkout;
 public class Customer {
 
     private String name;
-    private String contactInfo;
+    private String phoneNumber;
 
     public Customer(String name, String contactInfo) {
         this.name = name;
-        this.contactInfo = contactInfo;
+        this.phoneNumber = contactInfo;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getContactInfo() {
-        return contactInfo;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public Order createOrder (int orderID){

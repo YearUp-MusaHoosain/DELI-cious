@@ -17,4 +17,9 @@ public class Toppings extends FoodItem{
     public double calculatePrice() {
         return getPrice();
     }
+
+    @Override
+    public String toString() {
+        return super.getName();
+    }
 }

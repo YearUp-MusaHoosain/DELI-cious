@@ -3,17 +3,21 @@ package com.pluralsight.program;
 import com.pluralsight.checkout.Customer;
 import com.pluralsight.checkout.Order;
 import com.pluralsight.checkout.SalesSystem;
+import com.pluralsight.fileManager.OrderFileManager;
+import com.pluralsight.interfaces.FoodItemInterface;
+import com.pluralsight.utils.Console;
 import com.pluralsight.orderItems.Chips;
 import com.pluralsight.orderItems.Drink;
 import com.pluralsight.orderItems.Sandwich;
 import com.pluralsight.orderItems.Toppings;
-import com.pluralsight.utils.Console;
+
 
 public class UserInterface {
 
     private static SalesSystem salesSystem = new SalesSystem();
-
-    public UserInterface(){}
+    private static OrderFileManager orderFileManager = new OrderFileManager();
+    public UserInterface() {
+    }
 
 
     // HOME SCREEN
@@ -38,20 +42,20 @@ public class UserInterface {
         // HOME SCREEN OPTIONS LOOP
 
         do {
-            try{
-            selection = Console.PromptForInt(options);
-            switch (selection) {
-                case 1 -> {
-                    Console.displayDelayedString("\nDisplaying Order Screen...\n");
-                    orderScreenDisplay();
+            try {
+                selection = Console.PromptForInt(options);
+                switch (selection) {
+                    case 1 -> {
+                        Console.displayDelayedString("\nDisplaying Order Screen...\n");
+                        orderScreenDisplay();
+                    }
+                    case 0 -> {
+                        Console.displayDelayedString("\nExiting...\n");
+                        Console.displayDelayedString("Thank you, have a nice day!");
+                        System.exit(0);
+                    }
+                    default -> System.out.println("Invalid choice! Please try again.");
                 }
-                case 0 -> {
-                    Console.displayDelayedString("\nExiting...\n");
-                    Console.displayDelayedString("Thank you, have a nice day!");
-                    System.exit(0);
-                }
-                default -> System.out.println("Invalid choice! Please try again.");
-            }
             } catch (Exception e) {
                 e.getMessage();
                 e.printStackTrace();
@@ -59,11 +63,7 @@ public class UserInterface {
         } while (selection != 0);
 
 
-
-
     }
-
-
 
 
     // ORDER SCREEN
@@ -112,8 +112,8 @@ public class UserInterface {
 
         // ORDER SCREEN OPTIONS LOOP
 
-            do {
-                try{
+        do {
+            try {
                 selection = Console.PromptForInt(options);
                 switch (selection) {
                     case 1 -> {
@@ -130,20 +130,20 @@ public class UserInterface {
                     }
                     case 4 -> {
                         Console.displayDelayedString("\nDisplaying Checkout Screen...\n");
-                        checkoutScreenDisplay();
+                        checkoutScreenDisplay(order);
                     }
                     case 0 -> {
-                        Console.displayDelayedString("\n\"Cancelling order, and returning to Home Screen...\n");
-                        processCancelOrderRequest();
+                        Console.displayDelayedString("\n\"Displaying order to cancel...\n");
+                        processCancelOrderRequest(order);
                         return;
                     }
                     default -> System.out.println("Invalid choice! Please try again.");
                 }
-                } catch (Exception e) {
-                    e.getMessage();
-                    e.printStackTrace();
-                }
-            } while (selection != 0);
+            } catch (Exception e) {
+                e.getMessage();
+                e.printStackTrace();
+            }
+        } while (selection != 0);
 
 
     }
@@ -185,7 +185,7 @@ public class UserInterface {
     private void processAddChipsRequest(Order order) {
 
         Runnable chipsLoop = () -> {
-            for (int i = 0; i < salesSystem.getMenu().getChipsList().size(); i++){
+            for (int i = 0; i < salesSystem.getMenu().getChipsList().size(); i++) {
                 Chips chips = salesSystem.getMenu().getChipsList().get(i);
                 System.out.println("║        " + (i + 1) + " - " + chips.getName() + "                               ║");
             }
@@ -207,14 +207,11 @@ public class UserInterface {
         System.out.println("Select Chips:");
 
 
-
         int customerChips = Console.PromptForInt(">>> Select Chips: ");
         Drink chips = salesSystem.getMenu().getDrinkList().get(customerChips - 1);
         order.addItem(chips);
         Console.displayMoreDelayedString("\n ----- Selected \"" + chips + "\". Added to Checkout! -----\n");
     }
-
-
 
 
     // ADD SANDWICH DISPLAY
@@ -232,10 +229,10 @@ public class UserInterface {
                 ║                    ---------- Select Bread: ----------                    ║
                 ║                      -------------------------------                      ║
                 ║                                                                           ║
-                ║                                 1) white                                  ║
-                ║                                 2) wheat                                  ║
-                ║                                 3) rye                                    ║
-                ║                                 4) wrap                                   ║
+                ║                                 1) White                                  ║
+                ║                                 2) Wheat                                  ║
+                ║                                 3) Rye                                    ║
+                ║                                 4) Wrap                                   ║
                 ║                                                                           ║
                 ║---------------------------------------------------------------------------║
                 ║                                                                           ║
@@ -274,39 +271,60 @@ public class UserInterface {
                 ║                            0 - Cancel Order                               ║
                 ║                                                                           ║
                 ╚═══════════════════════════════════════════════════════════════════════════╝
-                \n""";
+                """;
 
         System.out.println(orderScreenOptions);
 
-        int breadChoice = Console.PromptForInt(">>> Select Bread: ");
-        int sizeChoice = Console.PromptForInt(">>> Select Size: ");
+        int breadChoice = Console.PromptForInt(">>> Select Bread (Or Select 0 to Cancel Order): ");
+        int sizeChoice = Console.PromptForInt(">>> Select Size (Or Select 0 to Cancel Order): ");
 
-        try{
-            if (breadChoice >=1 && breadChoice <= Sandwich.sandwichBreadArrayList.size() &&
-                    sizeChoice >= 1 && sizeChoice <= Sandwich.sandwichSizesArrayList.size()){
+        try {
+            int toppingChoice;
+            if (breadChoice >= 1 && breadChoice <= Sandwich.sandwichBreadArrayList.size() &&
+                    sizeChoice >= 1 && sizeChoice <= Sandwich.sandwichSizesArrayList.size()) {
 
                 Sandwich sandwich = new Sandwich("Sandwich", Sandwich.sandwichBreadArrayList.get(breadChoice - 1), Sandwich.sandwichSizesArrayList.get(sizeChoice - 1));
 
-                while (true){
-                    int toppingChoice = Console.PromptForInt(">>> Add Toppings (Done with toppings? Enter 0): ");
-                    if (toppingChoice == 0){
-                        break;
-                    }
-                    else {
-                        Toppings topping = salesSystem.getMenu().getToppingsList().get(toppingChoice - 1);
-                        sandwich.addTopping(topping);
-                    }
+                try {
+                    do {
+                        toppingChoice = Console.PromptForInt(">>> Add Toppings (Done with toppings? Enter 99 | Want to Cancel Order? Enter 0): ");
+                        if (toppingChoice == 99) {
+                            break;
+                        }
+                        else if (toppingChoice == 0){
+                            order.removeAllItems();
+                            homeScreenDisplay();
+                            return;
+                        }
+                        else {
+                            Toppings topping = salesSystem.getMenu().getToppingsList().get(toppingChoice - 1);
+                            sandwich.addTopping(topping);
+                        }
+                    } while (true);
+
+                } catch (Exception e) {
+                    System.out.println("Error! Please enter a valid input");
+                    e.getMessage();
                 }
+
                 String toastedChoice = Console.PromptForString(">>> Would you like the sandwich toasted? (yes / no): ");
                 sandwich.setWantToasted(toastedChoice.equalsIgnoreCase("yes"));
+                System.out.println("""
+                        
+                        -------------------------------------------------------------
+                        
+                        """ + sandwich + """
+                        
+                        
+                        -------------------------------------------------------------
+                        """);
 
                 order.addItem(sandwich);
-            }
-            else if (userInput == 0) {
-
+            } else if (breadChoice == 0 || sizeChoice == 0) {
+                order.removeAllItems();
+                homeScreenDisplay();
                 return;
-            }
-            else{
+            } else {
                 System.out.println("Invalid choice. Please select a valid option.");
             }
         } catch (Exception e) {
@@ -316,10 +334,8 @@ public class UserInterface {
     }
 
 
-
-
     // CHECKOUT SCREEN
-    private void checkoutScreenDisplay() throws InterruptedException {
+    private void checkoutScreenDisplay(Order order) {
         String options = """
                 ╔════════════════════════════════════════════════╗
                 ║                 CHECKOUT SCREEN                ║
@@ -328,7 +344,6 @@ public class UserInterface {
                 ║    Please select from the following choices:   ║
                 ║                                                ║
                 ║        1 - Confirm Order                       ║
-                ║        2 - Modify Order                        ║
                 ║        0 - Cancel Order                        ║
                 ║                                                ║
                 ╚════════════════════════════════════════════════╝
@@ -341,13 +356,11 @@ public class UserInterface {
         do {
             selection = Console.PromptForInt(options);
             switch (selection) {
-                case 1 -> processConfirmOrderRequest();
-                case 2 -> processModifyOrderRequest();
+                case 1 -> processConfirmOrderRequest(order);
+//                case 2 -> processModifyOrderRequest(order);
                 case 0 -> {
-                    System.out.println("Cancelling order, and returning to Home Screen...");
-                    Thread.sleep(500);
-
-                    processCancelOrderRequest();
+                    Console.displayDelayedString("Cancelling order, and returning to Home Screen...");
+                    processCancelOrderRequest(order);
                     return;
                 }
                 default -> System.out.println("Invalid choice! Please try again.");
@@ -356,21 +369,183 @@ public class UserInterface {
     }
 
 
-    private void processConfirmOrderRequest() {
-        System.out.println("Confirm Order");
-        System.out.println("create the receipt file and go back to the home screen");
+    private void processConfirmOrderRequest(Order order) {
+        System.out.println("Order details:");
+        for (FoodItemInterface item : order.getFoodItemInterfaces()) {
+            if (item instanceof Sandwich) {
+                Sandwich sandwich = (Sandwich) item;
+//                System.out.println(sandwich.getSandwichSize() + " Sandwich on " + sandwich.getSandwichBread() + " - $" + sandwich.calculatePrice());
+                System.out.printf("%s Sandwich on %s - %.2f\n", sandwich.getSandwichSize(), sandwich.getSandwichBread(), sandwich.calculatePrice());
+                System.out.println("- Toppings:");
+                for (Toppings topping : sandwich.getToppingsList()) {
+                    System.out.println("  + " + topping.getName());
+                }
+                System.out.println("- Toasted: " + (sandwich.wantToasted() ? "Yes" : "No"));
+            }
+            else if (item instanceof Drink) {
+                Drink drink = (Drink) item;
+//                System.out.println(drink.getName() + " - $" + drink.getPrice());
+                System.out.printf("%s - $%.2f", drink.getName(), drink.getPrice());
+            }
+            else if (item instanceof Chips) {
+                Chips chips = (Chips) item;
+//                System.out.println(chips.getName() + " - $" + chips.getPrice());
+                System.out.printf("%s - $%.2f", chips.getName(), chips.getPrice());
+            }
+        }
+//        System.out.println("Total: $" + order.getTotalPrice());
+        System.out.println("\n\n========================");
+        System.out.printf("      Total: $%.2f", order.getTotalPrice());
+        System.out.println("\n========================");
+
+        String options = """
+                
+                -------- Ready to Complete the Order? --------
+                            1) Yes
+                            2) No
+                ----------------------------------------------
+                
+                >>> Enter Choice:\s""";
+
+        int selection;
+
+        do {
+            selection = Console.PromptForInt(options);
+            switch (selection) {
+                case 1 -> {
+                    orderFileManager.saveReceipt();
+                    Console.displayDelayedString("""
+                            
+                            ╭⋆✧✦✧⋆━━━━━━━━━━━━━━━━━━━━━━━━━━⋆✧✦✧⋆╮
+                            ┃                                       ┃
+                            ┃          ★ ORDER CONFIRMED! ★        ┃
+                            ┃                                       ┃
+                            ┃    --- Returning to Home Screen ---   ┃
+                            ┃                                       ┃
+                            ╰⋆✧✦✧⋆━━━━━━━━━━━━━━━━━━━━━━━━━━⋆✧✦✧⋆╯
+                
+                            """);
+                    order.removeAllItems();
+                    return;
+                }
+                case 2 -> {
+                    Console.displayDelayedString("""
+                            -------- Returning to Home Screen --------
+                            """);
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please try again.");
+            }
+        } while (true);
+
     }
 
-    private void processModifyOrderRequest() {
-        System.out.println("Modify Order");
+//    private void processModifyOrderRequest(Order order) {
+//        System.out.println("Order details:");
+//        for (FoodItemInterface item : order.getFoodItems()) {
+//            if (item instanceof Sandwich) {
+//                Sandwich sandwich = (Sandwich) item;
+//                System.out.println(sandwich.getSandwichSize() + " Sandwich on " + sandwich.getSandwichBread() + " - $" + sandwich.calculatePrice());
+//                System.out.println("- Toppings:");
+//                for (Toppings topping : sandwich.getToppingsList()) {
+//                    System.out.println("  + " + topping.getName());
+//                }
+//                System.out.println("- Toasted: " + (sandwich.wantToasted() ? "Yes" : "No"));
+//            }
+//            else if (item instanceof Drink) {
+//                Drink drink = (Drink) item;
+//                System.out.println(drink.getName() + " - $" + drink.getPrice());
+//            }
+//            else if (item instanceof Chips) {
+//                Chips chips = (Chips) item;
+//                System.out.println(chips.getName() + " - $" + chips.getPrice());
+//            }
+//        }
+//        System.out.println("\n========================");
+//        System.out.println("Total: $" + order.getTotalPrice());
+//        System.out.println("\n========================\n\n");
+//
+//        String userInput = Console.PromptForString("-------- What item to remove from your order? --------");
+//        System.out.println("-------- (Enter 0 ) --------");
+//
+//        do {
+//            for (FoodItemInterface item : order.getFoodItems()) {
+//                if (item instanceof Sandwich) {
+//                    Sandwich sandwich = (Sandwich) item;
+//                    order.removeItem(sandwich);
+//                    for (Toppings topping : sandwich.getToppingsList()) {
+//                        order.removeItem(topping);
+//                    }
+////                order.removeItem();
+//                    System.out.println("- Toasted: " + (sandwich.wantToasted() ? "Yes" : "No"));
+//                }
+//                else if (item instanceof Drink) {
+//                    Drink drink = (Drink) item;
+//                    order.removeItem(drink);
+//                }
+//                else if (item instanceof Chips) {
+//                    Chips chips = (Chips) item;
+//                    order.removeItem(chips);
+//                }
+//            }
+//        }while();
+//
+//
+//
+//
+//    }
+
+    private void processCancelOrderRequest(Order order) {
+        System.out.println("Order details:");
+        for (FoodItemInterface item : order.getFoodItemInterfaces()) {
+            if (item instanceof Sandwich) {
+                Sandwich sandwich = (Sandwich) item;
+                System.out.println(sandwich.getSandwichSize() + " Sandwich on " + sandwich.getSandwichBread() + " - $" + sandwich.calculatePrice());
+                System.out.println("- Toppings:");
+                for (Toppings topping : sandwich.getToppingsList()) {
+                    System.out.println("  + " + topping.getName());
+                }
+                System.out.println("- Toasted: " + (sandwich.wantToasted() ? "Yes" : "No"));
+            }
+            else if (item instanceof Drink) {
+                Drink drink = (Drink) item;
+                System.out.println(drink.getName() + " - $" + drink.getPrice());
+            }
+            else if (item instanceof Chips) {
+                Chips chips = (Chips) item;
+                System.out.println(chips.getName() + " - $" + chips.getPrice());
+            }
+        }
+        System.out.println("Total: $" + order.getTotalPrice());
+
+        String options = """
+                -------- Are you sure you want to delete your order? --------
+                            1) Yes
+                            2) No
+                """;
+
+        int selection;
+
+        do {
+            selection = Console.PromptForInt(options);
+            switch (selection) {
+                case 1 -> {
+                    order.removeAllItems();
+                    Console.displayDelayedString("""
+                            -------- All Items Removed From Order --------
+                            """);
+                    return;
+                }
+                case 2 -> {
+                    Console.displayDelayedString("""
+                            -------- Not Cancelling, Keeping Order --------
+                            """);
+                    return;
+                }
+                default -> System.out.println("Invalid choice! Please try again.");
+            }
+        } while (true);
+
+
     }
-
-    private void processCancelOrderRequest() {
-        System.out.println("Cancel Order");
-        System.out.println("delete order and go back to the home screen");
-    }
-
-
-
-
 }

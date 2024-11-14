@@ -19,34 +19,41 @@ public class OrderFileManager {
 
     public void saveReceipt()
     {
-        File folder = new File("receipts/");
+        File folder = new File("/receipts__");
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
-        String folderName = "receipts/";
-        String fileName = folderName + dateTime + ".txt";
+        String folderName = "src/main/java/com/pluralsight/receipts";
+        String fileName = folderName + folder + dateTime + ".txt";
 
 
 
         try (FileWriter writer = new FileWriter(fileName))
         {
             writer.write("Order ID: " + orders.getOrderID() + "\n");
-            writer.write("Customer: " + orders.getCustomer().getName() + " (" + orders.getCustomer().getContactInfo() + ")\n\n");
+            writer.write("Customer: " + orders.getCustomer().getName() + " (" + orders.getCustomer().getPhoneNumber() + ")\n----------------------------------\n");
             for (FoodItemInterface item : foodItemInterfaces)
             {
                 if (item instanceof Sandwich) {
                     Sandwich sandwich = (Sandwich) item;
-                    writer.write(sandwich.getSandwichSize() + " Sandwich on " + sandwich.getSandwichBread() + " - $" + sandwich.calculatePrice() + "\n");
+                    String sandwichFormattedString = String.format("%s Sandwich on %s - %.2f\n", sandwich.getSandwichSize(), sandwich.getSandwichBread(), sandwich.calculatePrice());
+                    writer.write(sandwichFormattedString);
+//                    writer.write(sandwich.getSandwichSize() + " Sandwich on " + sandwich.getSandwichBread() + " - $" + sandwich.calculatePrice() + "\n");
                     for (Toppings topping : sandwich.getToppingsList())
                     {
                         writer.write("  + " + topping.getName() + (topping.isPremium() ? " (Premium)" : "") + "\n");
                     }
                 } else {
-                    writer.write(item.getName() + " - $" + item.calculatePrice() + "\n");
+                    String itemFormattedString = String.format("%s - $%.2f\n", item.getName(), item.calculatePrice());
+                    writer.write(itemFormattedString);
+//                    writer.write(item.getName() + " - $" + item.calculatePrice() + "\n");
                 }
             }
-            writer.write("\nTotal Price: $" + orders.getTotalPrice());
-        } catch (IOException e)
-        {
-            System.out.println("Invalid entry");
+            writer.write("========================");
+            String totalPriceFormattedString = String.format("\n\nTotal Price: $%.2f\n\n", orders.getTotalPrice());
+            writer.write(totalPriceFormattedString);
+            writer.write("========================");
+//            writer.write("\nTotal Price: $" + orders.getTotalPrice());
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
