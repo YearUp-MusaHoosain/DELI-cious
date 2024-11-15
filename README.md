@@ -56,7 +56,7 @@ The UML class diagram provides a visual representation of the classes and their 
 ## Userflow Diagram
 The userflow diagram provides a visual representation of the flow of application through the user.
 
-![View UML Diagram](src/main/java/com/pluralsight/resources/UserflowDiagram.svg).
+![View UML Diagram](src/main/java/com/pluralsight/resources/UserflowDiagram.jpg).
 
 ## Getting Started
 ### Prerequisites
