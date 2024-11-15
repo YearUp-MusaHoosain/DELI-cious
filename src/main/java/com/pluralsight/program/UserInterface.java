@@ -134,7 +134,7 @@ public class UserInterface {
                         checkoutScreenDisplay(order);
                     }
                     case 0 -> {
-                        Console.displayDelayedString("\n\"Displaying order to cancel...\n");
+                        Console.displayDelayedString("\nDisplaying order to cancel...\n");
                         processCancelOrderRequest(order);
                         return;
                     }
@@ -370,10 +370,13 @@ public class UserInterface {
         do {
             selection = Console.PromptForInt(options);
             switch (selection) {
-                case 1 -> processConfirmOrderRequest(order);
+                case 1 -> {
+                    Console.displayDelayedString("\nDisplaying Order Confirmation Screen...\n");
+                    processConfirmOrderRequest(order);
+                }
 //                case 2 -> processModifyOrderRequest(order);
                 case 0 -> {
-                    Console.displayDelayedString("Cancelling order, and returning to Home Screen...");
+                    Console.displayDelayedString("\nDisplaying order to cancel...\n");
                     processCancelOrderRequest(order);
                     return;
                 }

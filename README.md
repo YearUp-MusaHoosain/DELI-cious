@@ -58,6 +58,20 @@ The userflow diagram provides a visual representation of the flow of application
 
 ![View UML Diagram](src/main/java/com/pluralsight/resources/UserflowDiagram.jpg).
 
+## Interesting Piece of Code
+This piece of code is in a variable (through the use of Runnable) that creates a loop that gets the drink list, and displays the iteration number and the drink name. Then I can call that loop anywhere by doing drinkLoop.run(); which would call the loop in that variable
+
+```java
+Runnable drinkLoop = () -> {
+            for (int i = 0; i < salesSystem.getMenu().getDrinkList().size(); i++) {
+                Drink drink = salesSystem.getMenu().getDrinkList().get(i);
+                System.out.println("║        " + (i + 1) + " - " + drink.getName() + "                         ║");
+            }
+        };
+
+drinkLoop.run();
+```
+
 ## Getting Started
 ### Prerequisites
 - **Java JDK 17** or above.
@@ -98,9 +112,6 @@ The userflow diagram provides a visual representation of the flow of application
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Authors
-- [Your Name] - Developer of Deli-cious Sales System.
 
 ## Acknowledgments
 - Special thanks to YearUp for the capstone project opportunity.
