@@ -64,28 +64,37 @@ The userflow diagram provides a visual representation of the flow of application
 <summary>Click the arrow to expand and view screenshots of the application!</summary>
 
 **Welcome Screen**
+
 ![Welcome.jpg](src/main/java/com/pluralsight/resources/applicationPictures/Welcome.jpg)
 
 **Customer Info Screen**
+
 ![CustomerInfo.jpg](src/main/java/com/pluralsight/resources/applicationPictures/CustomerInfo.jpg)
 
 **Order Screen**
+
 ![Order.jpg](src/main/java/com/pluralsight/resources/applicationPictures/Order.jpg)
 
 **Add Sandwich Screen**
+
 ![AddSandwich.jpg](src/main/java/com/pluralsight/resources/applicationPictures/AddSandwich.jpg)
 
 **Drinks Screen**
+
 ![Drink.jpg](src/main/java/com/pluralsight/resources/applicationPictures/Drink.jpg)
 
 **Chips Screen**
+
 ![Chips.jpg](src/main/java/com/pluralsight/resources/applicationPictures/Chips.jpg)
 
 **Checkout Screen**
+
 ![Checkout.jpg](src/main/java/com/pluralsight/resources/applicationPictures/Checkout.jpg)
 
 **Order Confirmed Message**
+
 ![OrderConfirmed.jpg](src/main/java/com/pluralsight/resources/applicationPictures/OrderConfirmed.jpg)
+
 </details>
 
 ## Interesting Piece of Code
