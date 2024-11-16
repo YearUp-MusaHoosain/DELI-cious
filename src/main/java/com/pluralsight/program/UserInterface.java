@@ -195,7 +195,7 @@ public class UserInterface {
 
         System.out.println("""
                 ╔════════════════════════════════════════════════╗
-                ║                  ORDER SCREEN                  ║
+                ║                  CHIPS SCREEN                  ║
                 ╠════════════════════════════════════════════════╣
                 ║                                                ║
                 ║   Please select from the following choices:    ║
@@ -209,7 +209,7 @@ public class UserInterface {
 
 
         int customerChips = Console.PromptForInt(">>> Select Chips: ");
-        Drink chips = salesSystem.getMenu().getDrinkList().get(customerChips - 1);
+        Chips chips = salesSystem.getMenu().getChipsList().get(customerChips - 1);
         order.addItem(chips);
         Console.displayMoreDelayedString("\n ----- Selected \"" + chips + "\". Added to Checkout! -----\n");
     }

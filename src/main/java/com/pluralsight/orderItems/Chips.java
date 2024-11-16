@@ -8,4 +8,9 @@ public class Chips extends FoodItem{
     public Chips(String name, double price) {
         super(name, price);
     }
+
+    @Override
+    public String toString() {
+        return "Chips";
+    }
 }

@@ -1,0 +1,16 @@
+Order ID: 5603
+Customer: Musa (123-456-7890)
+----------------------------------
+- 4" Sandwich on Wheat Bread - 7.25
+  + Steak (Premium)
+  + American Cheese (Premium)
+  + Lettuce
+  + Peppers
+  + Mayo
+- Large Drink - $3.00
+- Small Drink - $2.00
+========================
+
+Total Price: $12.25
+
+========================
